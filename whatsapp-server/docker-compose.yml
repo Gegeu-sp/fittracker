@@ -1,0 +1,44 @@
+version: '3.3'
+services:
+  evolution_api:
+    container_name: evolution_api
+    image: atendai/evolution-api:v2.2.2
+    restart: always
+    ports:
+      - "8082:8080" # Porta 8082 para não conflitar com o site
+    environment:
+      - SERVER_URL=http://localhost:8082
+      - DOCKER_ENV=true
+      - AUTHENTICATION_API_KEY=treino_master_key_2025
+      - AUTHENTICATION_EXPOSE_IN_FETCH_INSTANCES=true
+      - DATABASE_ENABLED=true
+      - DATABASE_PROVIDER=postgresql
+      - DATABASE_CONNECTION_URI=postgresql://evolution:evolution_pass@evolution_postgres:5432/evolution
+      - CACHE_REDIS_ENABLED=true
+      - CACHE_REDIS_URI=redis://:redis_pass@evolution_redis:6379/0
+    depends_on:
+      - evolution_postgres
+      - evolution_redis
+
+  evolution_postgres:
+    container_name: evolution_postgres
+    image: postgres:15-alpine
+    restart: always
+    environment:
+      - POSTGRES_DB=evolution
+      - POSTGRES_USER=evolution
+      - POSTGRES_PASSWORD=evolution_pass
+    volumes:
+      - evolution_pg_data:/var/lib/postgresql/data
+
+  evolution_redis:
+    container_name: evolution_redis
+    image: redis:alpine
+    restart: always
+    command: redis-server --requirepass redis_pass
+    volumes:
+      - evolution_redis_data:/data
+
+volumes:
+  evolution_pg_data:
+  evolution_redis_data:

@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Relatório de Treino - Gustavo Pagotto</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: #f5f5f5;
+            overflow: hidden;
+        }
+        .slide {
+            width: 720px;
+            min-height: 1280px;
+            background: linear-gradient(135deg, #0a2d5c 0%, #1565c0 100%);
+            color: white;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            position: relative;
+        }
+        .slide::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: url('https://sfile.chatglm.cn/images-ppt/d8933323b2a7.png');
+            background-size: cover;
+            background-position: center;
+            opacity: 0.08;
+            z-index: 0;
+        }
+        .content {
+            padding: 40px 30px;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+            z-index: 1;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .title {
+            font-size: 48px;
+            font-weight: 900;
+            color: #ffffff;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            line-height: 1.1;
+            margin-bottom: 15px;
+            text-shadow: 0px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        .date {
+            font-size: 24px;
+            font-weight: 600;
+            color: #90caf9;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .date i {
+            margin-right: 10px;
+            font-size: 22px;
+        }
+        .main-content {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+            flex-grow: 1;
+        }
+        .section {
+            background-color: rgba(255, 255, 255, 0.15);
+            border-radius: 25px;
+            padding: 25px;
+            backdrop-filter: blur(8px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .section-title {
+            font-size: 32px;
+            font-weight: 800;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            color: #ffffff;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            text-shadow: 0px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        .section-title i {
+            margin-right: 12px;
+            font-size: 28px;
+            color: #ffeb3b;
+        }
+        .exercise-list {
+            list-style: none;
+        }
+        .exercise-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+        }
+        .exercise-item:last-child {
+            border-bottom: none;
+        }
+        .exercise-name {
+            font-size: 22px;
+            font-weight: 700;
+            flex: 2;
+            display: flex;
+            align-items: center;
+        }
+        .exercise-name i {
+            color: #4caf50;
+            margin-right: 12px;
+            font-size: 20px;
+        }
+        .exercise-details {
+            display: flex;
+            gap: 12px;
+            flex: 3;
+            justify-content: flex-end;
+        }
+        .exercise-stat {
+            text-align: center;
+            background-color: rgba(255, 255, 255, 0.15);
+            padding: 10px 12px;
+            border-radius: 12px;
+            min-width: 80px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .stat-value {
+            font-size: 24px;
+            font-weight: 800;
+            color: #ffeb3b;
+            text-shadow: 0px 1px 2px rgba(0, 0, 0, 0.3);
+        }
+        .stat-label {
+            font-size: 14px;
+            opacity: 0.9;
+            text-transform: uppercase;
+            font-weight: 600;
+        }
+        .summary-stats {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+        .summary-stat {
+            background-color: rgba(255, 255, 255, 0.15);
+            border-radius: 15px;
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .summary-label {
+            font-size: 16px;
+            opacity: 0.9;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            font-weight: 600;
+        }
+        .summary-value {
+            font-size: 32px;
+            font-weight: 800;
+            color: #ffeb3b;
+            text-shadow: 0px 1px 2px rgba(0, 0, 0, 0.3);
+        }
+        .footer {
+            text-align: center;
+            padding: 20px;
+            font-size: 28px;
+            font-weight: 800;
+            color: #ffeb3b;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 25px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 25px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .footer i {
+            margin-right: 15px;
+            font-size: 26px;
+        }
+        .accent-circle {
+            position: absolute;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(144, 202, 249, 0.15) 0%, rgba(144, 202, 249, 0) 70%);
+            z-index: 0;
+        }
+        .accent-circle-1 {
+            width: 400px;
+            height: 400px;
+            top: -150px;
+            right: -150px;
+        }
+        .accent-circle-2 {
+            width: 400px;
+            height: 400px;
+            bottom: -150px;
+            left: -150px;
+        }
+        .accent-circle-3 {
+            width: 300px;
+            height: 300px;
+            top: 40%;
+            left: -100px;
+        }
+        .instagram {
+            font-size: 18px;
+            font-weight: 600;
+            color: #90caf9;
+            margin-top: 10px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="slide">
+        <div class="accent-circle accent-circle-1"></div>
+        <div class="accent-circle accent-circle-2"></div>
+        <div class="accent-circle accent-circle-3"></div>
+        <div class="content">
+            <div class="header">
+                <h1 class="title">Relatório de Treino<br>Gustavo Pagotto</h1>
+                <p class="date"><i class="material-icons">event</i> Data do Treino: 06/11</p>
+            </div>
+            
+            <div class="main-content">
+                <div class="section">
+                    <h2 class="section-title">
+                        <i class="material-icons">fitness_center</i>
+                        Exercícios
+                    </h2>
+                    <ul class="exercise-list">
+                        <li class="exercise-item">
+                            <span class="exercise-name"><i class="material-icons">check_circle</i>Pulldown corda</span>
+                            <div class="exercise-details">
+                                <div class="exercise-stat">
+                                    <div class="stat-value">4</div>
+                                    <div class="stat-label">séries</div>
+                                </div>
+                                <div class="exercise-stat">
+                                    <div class="stat-value">42</div>
+                                    <div class="stat-label">reps</div>
+                                </div>
+                                <div class="exercise-stat">
+                                    <div class="stat-value">1410</div>
+                                    <div class="stat-label">kg</div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="exercise-item">
+                            <span class="exercise-name"><i class="material-icons">check_circle</i>Supino máquina</span>
+                            <div class="exercise-details">
+                                <div class="exercise-stat">
+                                    <div class="stat-value">4</div>
+                                    <div class="stat-label">séries</div>
+                                </div>
+                                <div class="exercise-stat">
+                                    <div class="stat-value">42</div>
+                                    <div class="stat-label">reps</div>
+                                </div>
+                                <div class="exercise-stat">
+                                    <div class="stat-value">678</div>
+                                    <div class="stat-label">kg</div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="exercise-item">
+                            <span class="exercise-name"><i class="material-icons">check_circle</i>Legpress horizontal</span>
+                            <div class="exercise-details">
+                                <div class="exercise-stat">
+                                    <div class="stat-value">4</div>
+                                    <div class="stat-label">séries</div>
+                                </div>
+                                <div class="exercise-stat">
+                                    <div class="stat-value">42</div>
+                                    <div class="stat-label">reps</div>
+                                </div>
+                                <div class="exercise-stat">
+                                    <div class="stat-value">966</div>
+                                    <div class="stat-label">kg</div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="exercise-item">
+                            <span class="exercise-name"><i class="material-icons">check_circle</i>Puxada máquina</span>
+                            <div class="exercise-details">
+                                <div class="exercise-stat">
+                                    <div class="stat-value">3</div>
+                                    <div class="stat-label">séries</div>
+                                </div>
+                                <div class="exercise-stat">
+                                    <div class="stat-value">30</div>
+                                    <div class="stat-label">reps</div>
+                                </div>
+                                <div class="exercise-stat">
+                                    <div class="stat-value">750</div>
+                                    <div class="stat-label">kg</div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="exercise-item">
+                            <span class="exercise-name"><i class="material-icons">check_circle</i>Remada máquina</span>
+                            <div class="exercise-details">
+                                <div class="exercise-stat">
+                                    <div class="stat-value">3</div>
+                                    <div class="stat-label">séries</div>
+                                </div>
+                                <div class="exercise-stat">
+                                    <div class="stat-value">30</div>
+                                    <div class="stat-label">reps</div>
+                                </div>
+                                <div class="exercise-stat">
+                                    <div class="stat-value">750</div>
+                                    <div class="stat-label">kg</div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="exercise-item">
+                            <span class="exercise-name"><i class="material-icons">check_circle</i>Crucifixo máquina</span>
+                            <div class="exercise-details">
+                                <div class="exercise-stat">
+                                    <div class="stat-value">4</div>
+                                    <div class="stat-label">séries</div>
+                                </div>
+                                <div class="exercise-stat">
+                                    <div class="stat-value">40</div>
+                                    <div class="stat-label">reps</div>
+                                </div>
+                                <div class="exercise-stat">
+                                    <div class="stat-value">1195</div>
+                                    <div class="stat-label">kg</div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="exercise-item">
+                            <span class="exercise-name"><i class="material-icons">check_circle</i>Desenv. máquina</span>
+                            <div class="exercise-details">
+                                <div class="exercise-stat">
+                                    <div class="stat-value">3</div>
+                                    <div class="stat-label">séries</div>
+                                </div>
+                                <div class="exercise-stat">
+                                    <div class="stat-value">30</div>
+                                    <div class="stat-label">reps</div>
+                                </div>
+                                <div class="exercise-stat">
+                                    <div class="stat-value">345</div>
+                                    <div class="stat-label">kg</div>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div class="section">
+                    <h2 class="section-title">
+                        <i class="material-icons">analytics</i>
+                        Resumo
+                    </h2>
+                    <div class="summary-stats">
+                        <div class="summary-stat">
+                            <span class="summary-label">Total de Exercícios</span>
+                            <span class="summary-value">7</span>
+                        </div>
+                        <div class="summary-stat">
+                            <span class="summary-label">Total de Séries</span>
+                            <span class="summary-value">25</span>
+                        </div>
+                        <div class="summary-stat">
+                            <span class="summary-label">Total de Repetições</span>
+                            <span class="summary-value">256</span>
+                        </div>
+                        <div class="summary-stat">
+                            <span class="summary-label">Volume Total</span>
+                            <span class="summary-value">6094 kg</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="footer">
+                <i class="material-icons">local_fire_department</i>
+                Sem desculpas, só resultados!
+            </div>
+            
+            <div class="instagram">@argeurodrigueslpo</div>
+        </div>
+    </div>
+</body>
+</html>

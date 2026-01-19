@@ -1,0 +1,185 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* FitTracker Pro Design System - Dark theme with orange accents
+All colors MUST be HSL for consistency and theming support.
+*/
+
+@layer base {
+  :root {
+    /* Primary brand colors - Orange fitness theme */
+    --fitness-orange: 30 100% 55%;        /* #ff8c00 main orange */
+    --fitness-orange-light: 33 100% 65%;  /* lighter orange */
+    --fitness-orange-dark: 27 100% 45%;   /* darker orange */
+    
+    /* Dark theme foundation */
+    --background: 0 0% 4%;                 /* Deep black #0a0a0a */
+    --foreground: 0 0% 98%;                /* Pure white text */
+    
+    /* Card and surface colors */
+    --card: 0 0% 7%;                       /* Dark card background */
+    --card-foreground: 0 0% 98%;           /* White text on cards */
+    --card-accent: 0 0% 10%;               /* Slightly lighter for borders */
+    
+    /* Interactive elements */
+    --primary: var(--fitness-orange);      /* Orange primary */
+    --primary-foreground: 0 0% 0%;         /* Black text on orange */
+    --primary-hover: var(--fitness-orange-light);
+    
+    --secondary: 0 0% 15%;                 /* Dark secondary */
+    --secondary-foreground: 0 0% 85%;      /* Light gray text */
+    --secondary-hover: 0 0% 20%;
+    
+    --accent: var(--fitness-orange);       /* Orange accent */
+    --accent-foreground: 0 0% 0%;
+    
+    /* Form and input elements */
+    --input: 0 0% 12%;                     /* Dark input background */
+    --input-foreground: 0 0% 95%;          /* Light input text */
+    --border: 0 0% 18%;                    /* Subtle borders */
+    --ring: var(--fitness-orange);         /* Orange focus rings */
+    
+    /* Status colors */
+    --success: 142 76% 36%;                /* Green for success */
+    --success-foreground: 0 0% 98%;
+    --warning: 48 96% 53%;                 /* Yellow for warning */
+    --warning-foreground: 0 0% 0%;
+    --destructive: 0 84% 60%;              /* Red for destructive */
+    --destructive-foreground: 0 0% 98%;
+    
+    /* Muted elements */
+    --muted: 0 0% 12%;                     /* Muted background */
+    --muted-foreground: 0 0% 60%;          /* Muted text */
+    
+    /* Popover and modal */
+    --popover: 0 0% 8%;                    /* Dark popover */
+    --popover-foreground: 0 0% 95%;        /* Light popover text */
+    
+    /* Sidebar specific */
+    --sidebar-background: 0 0% 5%;         /* Darker sidebar */
+    --sidebar-foreground: 0 0% 90%;        /* Light sidebar text */
+    --sidebar-primary: var(--fitness-orange);
+    --sidebar-primary-foreground: 0 0% 0%;
+    --sidebar-accent: 0 0% 10%;
+    --sidebar-accent-foreground: 0 0% 90%;
+    --sidebar-border: 0 0% 15%;
+    --sidebar-ring: var(--fitness-orange);
+    
+    /* Design system utilities */
+    --radius: 0.75rem;                     /* Rounded corners */
+    --shadow-glow: 0 0 30px hsl(var(--fitness-orange) / 0.3);
+    --shadow-card: 0 4px 20px hsl(0 0% 0% / 0.4);
+    --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    
+    /* Gradients */
+    --gradient-primary: linear-gradient(135deg, hsl(var(--fitness-orange)), hsl(var(--fitness-orange-light)));
+    --gradient-card: linear-gradient(145deg, hsl(var(--card)), hsl(var(--card-accent)));
+    --gradient-subtle: linear-gradient(180deg, hsl(var(--background)), hsl(0 0% 2%));
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground font-montserrat antialiased;
+  }
+  
+  /* Scrollbar styling for dark theme */
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+  
+  ::-webkit-scrollbar-track {
+    @apply bg-background;
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    @apply bg-border rounded-full;
+  }
+  
+  ::-webkit-scrollbar-thumb:hover {
+    background: hsl(var(--fitness-orange) / 0.6);
+  }
+}
+
+@layer components {
+  /* Enhanced button variants */
+  .btn-fitness {
+    @apply bg-gradient-to-r from-primary to-primary-hover text-primary-foreground font-semibold;
+    @apply hover:shadow-glow transition-all duration-300;
+    @apply border-0 px-6 py-3 rounded-lg;
+  }
+  
+  /* Card enhancements */
+  .card-fitness {
+    @apply bg-gradient-to-br from-card to-card-accent;
+    @apply border border-border/40 shadow-card backdrop-blur-sm;
+    @apply hover:border-primary/30 transition-all duration-300;
+  }
+  
+  /* Animated elements */
+  .animate-fade-in {
+    animation: fadeIn 0.6s ease-out forwards;
+  }
+  
+  .animate-slide-up {
+    animation: slideUp 0.8s ease-out forwards;
+  }
+  
+  .hover-glow {
+    @apply transition-all duration-300;
+  }
+  
+  .hover-glow:hover {
+    box-shadow: var(--shadow-glow);
+    transform: translateY(-2px);
+  }
+}
+
+@layer utilities {
+  .text-gradient {
+    background: var(--gradient-primary);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  
+  .bg-fitness-gradient {
+    background: var(--gradient-primary);
+  }
+  
+  .shadow-glow {
+    box-shadow: var(--shadow-glow);
+  }
+  
+  .shadow-card {
+    box-shadow: var(--shadow-card);
+  }
+}
+
+/* Keyframe animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
