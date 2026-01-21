@@ -1,3 +1,7 @@
+import { useState, useEffect } from "react";
+import { supabase } from "@/integrations/supabase/client";
+import { Session } from "@supabase/supabase-js";
+import Login from "./components/Login";
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -28,7 +32,49 @@ const queryClient = new QueryClient({
 });
 
 const App = () => {
+  const [session, setSession] = useState<Session | null>(null);
+  const [loading, setLoading] = useState(true);
 
+  useEffect(() => {
+    // Verificar sessão inicial
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setSession(session);
+      setLoading(false);
+    });
+
+    // Escutar mudanças de autenticação
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((_event, session) => {
+      setSession(session);
+      setLoading(false);
+    });
+
+    return () => subscription.unsubscribe();
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="flex h-screen w-full items-center justify-center bg-[#0a0a0a] text-white">
+        <div className="animate-pulse flex flex-col items-center gap-4">
+          <div className="h-12 w-12 rounded-full border-4 border-[#ff8c00] border-t-transparent animate-spin"></div>
+          <p className="text-sm text-gray-400 font-montserrat">Carregando sistema...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (!session) {
+    return (
+      <QueryClientProvider client={queryClient}>
+        <TooltipProvider>
+          <Toaster />
+          <Sonner />
+          <Login />
+        </TooltipProvider>
+      </QueryClientProvider>
+    );
+  }
 
   return (
   <QueryClientProvider client={queryClient}>
