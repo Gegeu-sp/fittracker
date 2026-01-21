@@ -1,0 +1,15 @@
+version: '3.8'
+
+services:
+  app:
+    build: ./flexi-train-reports
+    container_name: flexi-train-app
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./flexi-train-reports:/app
+      - /app/node_modules
+    environment:
+      - CHOKIDAR_USEPOLLING=true
+      - WATCHPACK_POLLING=true
+    restart: always
