@@ -70,7 +70,8 @@ npm run dev
 
 ---
 ```
-### 2. 📂 Estrutura do Projeto
+
+### 3. 📂 Estrutura do Projeto
 
 ### Organização de Diretórios (Principais)
 - `src/components/` — Componentes de página e UI (Dashboard, Students, Parser, History, Reports, Settings, etc.).
