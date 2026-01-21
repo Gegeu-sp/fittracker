@@ -18,6 +18,8 @@ import WorkoutReports from "./components/WorkoutReports";
 import Settings from "./components/Settings";
 import ParserEquivalenceTester from "./components/dev/ParserEquivalenceTester";
 import NotFound from "./pages/NotFound";
+import { Button } from "@/components/ui/button";
+import { LogOut } from "lucide-react";
 
 import ConnectionStatus from "./components/ConnectionStatus";
 
@@ -36,23 +38,45 @@ const App = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Verificar sessão inicial
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      setSession(session);
-      setLoading(false);
-    });
+    let mounted = true;
 
-    // Escutar mudanças de autenticação
+    // 1. Verificar sessão inicial
+    const checkSession = async () => {
+      try {
+        const { data: { session } } = await supabase.auth.getSession();
+        if (mounted) {
+          setSession(session);
+        }
+      } catch (error) {
+        console.error("Erro ao verificar sessão:", error);
+      } finally {
+        if (mounted) {
+          setLoading(false);
+        }
+      }
+    };
+
+    checkSession();
+
+    // 2. Escutar mudanças de autenticação
     const {
       data: { subscription },
     } = supabase.auth.onAuthStateChange((_event, session) => {
-      setSession(session);
-      setLoading(false);
+      if (mounted) {
+        setSession(session);
+        setLoading(false);
+      }
     });
 
-    return () => subscription.unsubscribe();
+    return () => {
+      mounted = false;
+      subscription.unsubscribe();
+    };
   }, []);
 
+  // 3. Renderização Condicional - GATEKEEPER
+
+  // Estado 1: Carregando (Bloqueio Total)
   if (loading) {
     return (
       <div className="flex h-screen w-full items-center justify-center bg-[#0a0a0a] text-white">
@@ -64,6 +88,7 @@ const App = () => {
     );
   }
 
+  // Estado 2: Não Autenticado (Login)
   if (!session) {
     return (
       <QueryClientProvider client={queryClient}>
@@ -76,36 +101,54 @@ const App = () => {
     );
   }
 
+  // Estado 3: Autenticado (App Protegido)
   return (
-  <QueryClientProvider client={queryClient}>
-    <TooltipProvider>
-      <Toaster />
-      <Sonner />
-      <ConnectionStatus />
-      <BrowserRouter>
-        <SidebarProvider defaultOpen={true}>
-          <div className="min-h-screen flex w-full bg-background">
-            <AppSidebar />
-            <main className="flex-1 overflow-auto">
-              <Routes>
-                <Route path="/" element={<Dashboard />} />
-                <Route path="/students" element={<StudentList />} />
-                <Route path="/students/:id" element={<StudentDetails />} />
-                <Route path="/parser" element={<WorkoutParser />} />
-                <Route path="/dev/parser-tester" element={<ParserEquivalenceTester />} />
-                <Route path="/workouts" element={<WorkoutHistory />} />
-                <Route path="/reports" element={<WorkoutReports />} />
-                <Route path="/settings" element={<Settings />} />
-                {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-                <Route path="*" element={<NotFound />} />
-              </Routes>
-            </main>
-          </div>
-        </SidebarProvider>
-      </BrowserRouter>
-    </TooltipProvider>
-  </QueryClientProvider>
-);
+    <QueryClientProvider client={queryClient}>
+      <TooltipProvider>
+        <Toaster />
+        <Sonner />
+        <ConnectionStatus />
+        <BrowserRouter>
+          <SidebarProvider defaultOpen={true}>
+            <div className="min-h-screen flex w-full bg-background relative">
+              <AppSidebar />
+              
+              {/* Botão Temporário de Logout */}
+              <div className="absolute top-4 right-4 z-50">
+                <Button 
+                  variant="destructive" 
+                  size="sm" 
+                  onClick={async () => {
+                    await supabase.auth.signOut();
+                    window.location.reload(); // Forçar recarregamento limpo
+                  }}
+                  className="flex items-center gap-2 shadow-lg hover:bg-red-700"
+                >
+                  <LogOut className="h-4 w-4" />
+                  Sair (Teste)
+                </Button>
+              </div>
+
+              <main className="flex-1 overflow-auto">
+                <Routes>
+                  <Route path="/" element={<Dashboard />} />
+                  <Route path="/students" element={<StudentList />} />
+                  <Route path="/students/:id" element={<StudentDetails />} />
+                  <Route path="/parser" element={<WorkoutParser />} />
+                  <Route path="/dev/parser-tester" element={<ParserEquivalenceTester />} />
+                  <Route path="/workouts" element={<WorkoutHistory />} />
+                  <Route path="/reports" element={<WorkoutReports />} />
+                  <Route path="/settings" element={<Settings />} />
+                  {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+                  <Route path="*" element={<NotFound />} />
+                </Routes>
+              </main>
+            </div>
+          </SidebarProvider>
+        </BrowserRouter>
+      </TooltipProvider>
+    </QueryClientProvider>
+  );
 };
 
 export default App;
