@@ -68,8 +68,8 @@ npm run dev
 - `npm run lint` — Análise de qualidade (ESLint).
 - `npm run preview` — Preview do build.
 
----
 ```
+---
 
 ### 3. 📂 Estrutura do Projeto
 
