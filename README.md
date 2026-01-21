@@ -69,8 +69,8 @@ npm run dev
 - `npm run preview` — Preview do build.
 
 ---
-
-## 3. 📂 Estrutura do Projeto
+```
+### 2. 📂 Estrutura do Projeto
 
 ### Organização de Diretórios (Principais)
 - `src/components/` — Componentes de página e UI (Dashboard, Students, Parser, History, Reports, Settings, etc.).
@@ -162,7 +162,7 @@ Este projeto segue rigorosos padrões de segurança para proteger o código e os
 ![Avatar](https://github.com/Gegeu-sp.png)
 
 **Projeto desenvolvido por Argeu Rodrigues**  
-🎓 Terceiro semestre de ADS na Faculdade Anhembi Morumbi  
+🎓 3º semestre de ADS na Faculdade Anhembi Morumbi  
 🏋️‍♂️ Personal Trainer | CREF: 158814-G/SP
 
 </div>
