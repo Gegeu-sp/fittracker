@@ -96,7 +96,34 @@ Sistema pessoal para planejamento, registro e análise de treinos de força, com
   - Operação: criação de instância, conexão via QR Code e envio de treino para o número alvo.
   - Visual: indicador acima do botão “Enviar WhatsApp” mostrando exatamente o destino.
 
-## 5. Informações Adicionais
+## 5. Segurança e Boas Práticas
+
+Este projeto segue rigorosos padrões de segurança para proteger o código e os dados.
+
+### Configuração de Acesso
+- **Permissões**: O acesso ao repositório é restrito e gerenciado com base no princípio do menor privilégio.
+- **2FA**: A autenticação de dois fatores (2FA) é **obrigatória** para todos os colaboradores e administradores da organização no GitHub.
+- **Recuperação**: Configure métodos de recuperação seguros (códigos de backup) nas configurações da sua conta GitHub.
+
+### Gestão de Segredos
+- **GitHub Secrets**: Nenhuma credencial (chaves de API, senhas de banco) deve ser commitada no código. Utilize o GitHub Secrets para armazenar variáveis sensíveis usadas em CI/CD.
+- **Rotação**: Recomenda-se a rotação periódica das chaves de acesso do Supabase e tokens de API.
+
+### Code Review e Qualidade
+- **Branch Protection**: A branch `main` é protegida. Alterações diretas são bloqueadas; é necessário criar um Pull Request (PR).
+- **Checklist de Revisão**:
+  - [ ] O código segue o estilo do projeto?
+  - [ ] Não há credenciais expostas?
+  - [ ] Funcionalidades críticas foram testadas?
+  - [ ] Nenhuma dependência insegura foi introduzida?
+
+### Ferramentas Automatizadas
+- **Dependabot**: Configurado para verificar atualizações de dependências semanalmente.
+- **CodeQL**: Análise estática de segurança configurada via GitHub Actions.
+
+Para reportar vulnerabilidades, consulte o arquivo [SECURITY.md](./SECURITY.md).
+
+## 6. Informações Adicionais
 
 - Status atual:
   - Em desenvolvimento ativo; todas as features acima estão presentes e operacionais em ambiente local.
@@ -109,3 +136,7 @@ Sistema pessoal para planejamento, registro e análise de treinos de força, com
 
 - Contato (suporte técnico):
   - Projeto de uso pessoal. Para manutenção/suporte, consulte o responsável pelo repositório.
+
+---
+
+**Projeto desenvolvido por Argeu Rodrigues, terceiro semestre de ADS na Faculdade Anhembi Morumbi**
