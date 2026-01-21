@@ -160,7 +160,8 @@ Este projeto segue rigorosos padrões de segurança para proteger o código e os
 
 <div align="center">
 
-![Avatar](https://github.com/Gegeu-sp.png)
+[![GitHub](https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white)](https://github.com/Gegeu-sp)
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/argeu-rodrigues/)
 
 **Projeto desenvolvido por Argeu Rodrigues**  
 🎓 3º semestre de ADS na Faculdade Anhembi Morumbi  
