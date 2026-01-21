@@ -5,7 +5,7 @@ services:
     build: ./flexi-train-reports
     container_name: flexi-train-app
     ports:
-      - "8080:8080"
+      - "8090:8080"
     volumes:
       - ./flexi-train-reports:/app
       - /app/node_modules
